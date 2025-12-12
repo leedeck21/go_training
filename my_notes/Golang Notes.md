@@ -68,7 +68,7 @@ This can be called on a file to fix it’s formatting
 
 ## _go fmt [main.go](http://main.go)_
 
-## mod {#mod}
+## _mod {#mod}_
 
 This creates a new go module
 
@@ -90,17 +90,17 @@ NOTE: You do not need to specify the file name for this to work.
 
 # App Files
 
-## go.mod {#go.mod}
+## _go.mod {#go.mod}_
 
 This is the [module](#module) file created when you run the [mod](#mod) command. This file contains the module name, version and required packages.
 
-## go.sum {#go.sum}
+## _go.sum {#go.sum}_
 
 This file is created when you install a [new package](#3rd-party-packages) into a [module](#module). This is a generated system file that should not be modified.
 
 # Go Packages
 
-## fmt
+## _fmt_
 
 The [Golang FMT](https://pkg.go.dev/fmt) package allows you to print to console and other functions
 
@@ -712,7 +712,7 @@ If you declare a variable or a function using the Pascal case it will be automat
 
 # Functions {#functions}
 
-## Typehinting (functions)
+## _Typehinting (functions)_
 
 Typehinting for functions in Go is very similar to that of typescript, so here we declare the type of the argument immediately after it.
 
@@ -729,7 +729,7 @@ Secondly, unlike typescript, we do not use a colon to delineate the return type,
 
 ## Return Multiple Values
 
-Functions can return multiple arguments
+Functions can return secondsmultiple arguments
 
 ## _func processPayment(orderTotal float64, tip float64, amountPaid float64) (float64, float64) {_
 
@@ -1036,13 +1036,13 @@ This differs from PHP, in that in PHP we would use square bracket notation, here
 NOTE:  
 An array in PHP is flexible. You can add or remove values from the array and it will shrink or grow accordingly. In Go an Array is a fixed size. You can change the value of the entries within that array, but you cannot increase or decrease its size. For that you need to use a [slice](<#slice-(array-type)>).
 
-## len (array)
+## _len (array)_
 
 This is similar to count in PHP, it returns the length of an array.
 
 ## _coffeeTypes\[len(coffeeTypes)-1\] \= "Milk" // access last element in the array_
 
-## cap (array)
+## _cap (array)_
 
 Cap refers to the capacity of a slice or array each time that a slice is modified the length of that slice will change because it will either increase or decrease and then the capacity will change as well so if the length of a ray increases by one the capacity will increase by the value like 2 to allow for not only the addition of one more value but in anticipation of you adding potentially two more values if you then reach whatever the new capacity happens to be and you can continue to append to that slice then the capacity will update again with a new value and will grow geometrically typically you can expect the capacity of the slice to double.
 
@@ -1064,7 +1064,7 @@ Cap refers to the capacity of a slice or array each time that a slice is modifie
 
 In the above example you can see that we start with a slice that contains just two values and as a result has length of two and capacity of two but then we append one more value and the length increases to three to accommodate the three values it now contains while the capacity increases to four in anticipation of further values being added.
 
-## slice (function) {#slice-(function)}
+## _slice (function) {#slice-(function)}_
 
 This works in much the same way as slice in PHP where the first number provided is the first key we return and the last number represents the upper limit, so we return the key below that of the second value
 
@@ -1100,7 +1100,7 @@ So in this example we are passing a value of 1 this means we can expect to recei
 
 ## _// arraySlice \= \[Bob Ben\]_
 
-## Slice & Array Memory DependencyNOTE
+## _Slice & Array Memory DependencyNOTE_
 
 When you create a slice, it has a length and a capacity. The capacity reserves space in memory. If you modify the slice without exceeding its capacity, your changes affect the original array because both use the same underlying memory. But if you append past the slice’s capacity, Go creates a new underlying array in a new memory location. After that, changes to the slice no longer affect the original array.
 
@@ -1292,7 +1292,7 @@ A “map” is much like an “associative array” in php or an “object” in
 We call “map”, then the type of key we expect, which in this case is “string”.  
 Then we declare the return type, which here is “float64”
 
-## Exists (map)
+## _Exists (map)_
 
 “exists” in golang is most similar to key_exists in php.  
 It does not check the value.
@@ -1318,7 +1318,7 @@ It does not check the value.
 **NOTE:** The name of the second variable here is “exists”, but the name does not matter. It could be “ready” or “ok”, it makes no difference.  
 You can use this “exists” pattern for “maps”, “interfaces” and “channels”
 
-## delete (map)
+## _delete (map)_
 
 We can delete value from a “map” by using the delete command
 
@@ -1334,7 +1334,7 @@ We can delete value from a “map” by using the delete command
 
 ## _delete(menu, "Latte") // remove key with value_
 
-## nil (map) {#nil-(map)}
+## _nil (map) {#nil-(map)}_
 
 ## _nil is a predeclared identifier representing the zero value for a pointer, channel, func, interface, map, or slice type. (It can also be used with errors that have no value)_
 
@@ -1354,7 +1354,7 @@ If we try to assign a value to this map directly like this
 
 Then it falls over. We cannot assign a new value to a map directly like this, because the maps value is nil.
 
-## make (map) {#make-(map)}
+## _make (map) {#make-(map)}_
 
 The important thing to remember is that:
 
@@ -1452,7 +1452,7 @@ A slice looks like this
 
 Note that there is no number within the square brackets, which is what determines this value to be a slice.
 
-## make can be called on a slice as well.make (slice function) {#make-can-be-called-on-a-slice-as-well.make-(slice-function)}
+## _make can be called on a slice as well.make (slice function) {#make-can-be-called-on-a-slice-as-well.make-(slice-function)}_
 
 Make is a [slice](<#slice-(array-type)>) specific function, it cannot be used with an array, but it can be used on a [map](<#map-(associative-arrays,-objects)>).
 
@@ -1501,7 +1501,7 @@ If statements are handled much like python, without braces.
 It is not possible to compare two variables of two different types.  
 So you can’t compare a float against an integer, it will throw an error.
 
-## Declare variables within conditionals (Initialiser)
+## _Declare variables within conditionals (Initialiser)_
 
 We can declare variables within conditionals using the semi-colon to separate values
 
@@ -1817,23 +1817,23 @@ For example, we can create a CoffeeMachine interface that requires a Brew() meth
 
 ## _func main() {_
 
-## **_// Here we create a variable of type CoffeeMachine_**
+## _// Here we create a variable of type CoffeeMachine_
 
-## **_// This is important because it tells Go that this variable_**
+## _// This is important because it tells Go that this variable_
 
-## **_// can hold any type that satisfies the CoffeeMachine interface_**
+## _// can hold any type that satisfies the CoffeeMachine interface_
 
 ## _var coffeeMachine CoffeeMachine_
 
 ##
 
-## **_// We assign a CapsuleMachine to the CoffeeMachine variable_**
+## _// We assign a CapsuleMachine to the CoffeeMachine variable_
 
 ## _coffeeMachine \= CapsuleMachine{Brand: "Nespresso"}_
 
 ##
 
-## **_// We can now call Brew() on the interface variable_**
+## _// We can now call Brew() on the interface variable_
 
 ## _fmt.Println(coffeeMachine.Brew())_
 
@@ -2222,11 +2222,81 @@ Here, ErrNoCoffee is a predefined error created with errors.New.
 Because it’s a static value, it can be compared directly (e.g., if err \== ErrNoCoffee) and reused anywhere in your program.  
 This keeps error declarations simple, clear, and consistent.
 
-# WaitGroups
+# Goroutines {#goroutines}
+
+Goroutines are lightweight threads managed by the Go runtime. They allow you to run functions concurrently, making it easy to write programs that perform multiple tasks at once.
+
+## Channels {#channels}
+
+Channels provide a way for goroutines to communicate with each other and synchronize execution. You can send values into a channel from one goroutine and receive those values in another.
+
+A channel is created with the make function:
+
+## _c := make(chan string)_
+
+You can send a value to a channel using the `<-` operator:
+
+## _c <- "message"_
+
+And receive a value from a channel:
+
+## _msg := <-c_
+
+### Example: Using Channels with Goroutines
+
+Suppose you have the following code:
+
+## _func makeDrink(barista string, drink string, c chan string) {_
+
+## _ fmt.Printf("Barista %s: Starting to make a drink...\n", barista)_
+
+## _ time.Sleep(2 \* time.Second)_
+
+## _ msg := fmt.Sprintf("Barista %s: %s is ready!", barista, drink)_
+
+## _ c <- msg // send message to channel (see [channels](#channels))_
+
+## _}_
+
+## _func main() {_
+
+## _ c := make(chan string)_
+
+## _ baristas := []string{"Bogdan", "Elena", "Alex"}_
+
+## _ drinks := []string{"Latte", "Espresso", "Tea"}_
+
+## _ for i, barista := range baristas { // see [for loop](#for-i-loop) and [range](#for-in-range)_
+
+## _ go makeDrink(barista, drinks[i], c)_
+
+## _ }_
+
+## _ for range baristas { // see [for loop](#for-i-loop) and [range](#for-in-range)_
+
+## _ msg := <-c // receive message from channel (see [channels](#channels))_
+
+## _ fmt.Println(msg)_
+
+## _ }_
+
+## _}_
+
+#### Explanation
+
+- The `makeDrink` function sends a message to the channel after preparing a drink.
+- In `main`, we launch a goroutine for each barista to make a drink.
+- The first `for` loop starts the goroutines (see [for loop](#for-i-loop) and [range](#for-in-range)).
+- The second `for range` loop receives messages from the channel, one for each barista. This pattern allows the program to process each result as soon as it is ready, without blocking the entire program for each drink.
+- By separating the sending and receiving, the program does not stop and wait needlessly; it only waits when it needs a result.
+
+Channels are a core part of Go's concurrency model and are often used with goroutines to coordinate work and share data safely.
+
+## WaitGroups {#waitgroups}
 
 The sync.WaitGroup type in Go allows you to wait for a collection of goroutines to finish before continuing. It’s useful when you want to launch multiple concurrent tasks but need to make sure they all complete before moving on.
 
-## Add
+### Add
 
 Tells the WaitGroup how many goroutines you are going to wait for.
 
@@ -2234,7 +2304,7 @@ Tells the WaitGroup how many goroutines you are going to wait for.
 
 ## _wg.Add(3) // we plan to wait for 3 goroutines_
 
-## Done
+### Done
 
 Signals that a goroutine has finished its work.  
 It decrements the counter that was set by Add.
@@ -2251,7 +2321,7 @@ Note: It is a good practice to call wg.Done() using [defer](#defer) at the start
 
 ## _}()_
 
-## Wait
+### Wait
 
 Blocks the program until the WaitGroup counter reaches zero.  
 This is what makes the program wait for all goroutines to finish.
@@ -2292,23 +2362,17 @@ This is what makes the program wait for all goroutines to finish.
 
 ## _var wg sync.WaitGroup_
 
-##
-
 ## _wg.Add(3) // we will start 3 goroutines_
 
-##
+## _for i := 1; i <= 3; i++ {_
 
-## _for i := 1; i \<= 3; i++ {_
-
-## _go brewCoffee(i, \&wg)_
+## _go brewCoffee(i, &wg)_
 
 ## _}_
 
-##
-
 ## _wg.Wait() // wait for all goroutines to finish_
 
-## _fmt.Println("All coffee brewed\!")_
+## _fmt.Println("All coffee brewed!")_
 
 ## _}_
 
@@ -2320,14 +2384,14 @@ This is what makes the program wait for all goroutines to finish.
 - Finished coffee 1
 - Finished coffee 2
 - Finished coffee 3
-- All coffee brewed\!
+- All coffee brewed!
   This pattern ensures that:
   The program waits for all goroutines to finish (Wait)
   Each goroutine signals completion (Done)
   The counter is correctly set at the start (Add)
   Using defer Done protects against early returns or errors inside the goroutine
 
-## sync (Mutex)
+## sync (Mutex) {#mutex}
 
 The sync package provides basic synchronization primitives such as mutual exclusion locks (mutexes) and wait groups. A mutex is used to protect shared data from being accessed by multiple goroutines at the same time, preventing race conditions.
 
@@ -2378,8 +2442,6 @@ In this example, only one goroutine at a time can increment the shared variable.
 ## _var wg sync.WaitGroup_
 
 ## _counter := 0_
-
-##
 
 ## _for i := 0; i < 5; i++ {_
 
