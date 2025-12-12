@@ -2326,3 +2326,58 @@ This is what makes the program wait for all goroutines to finish.
   Each goroutine signals completion (Done)
   The counter is correctly set at the start (Add)
   Using defer Done protects against early returns or errors inside the goroutine
+
+## sync (Mutex)
+
+The sync package provides basic synchronization primitives such as mutual exclusion locks (mutexes) and wait groups. A mutex is used to protect shared data from being accessed by multiple goroutines at the same time, preventing race conditions.
+
+### Mutex
+
+A mutex (mutual exclusion lock) allows only one goroutine to access a critical section of code at a time. This is useful when you have shared variables or data structures that are being modified by multiple goroutines.
+
+To use a mutex, you create a variable of type sync.Mutex. You then call Lock() before accessing the shared data, and Unlock() when you are done.
+
+## _import "sync"_
+
+## _var mu sync.Mutex_
+
+## _shared := 0_
+
+## _mu.Lock()_
+
+## _shared++_
+
+## _mu.Unlock()_
+
+In this example, only one goroutine at a time can increment the shared variable. If another goroutine tries to call Lock() while the mutex is already locked, it will wait until the mutex is unlocked.
+
+### Example with Goroutines
+
+## _package main_
+##
+## _import (_
+## _"fmt"_
+## _"sync"_
+## _)_
+##
+## _func main() {_
+## _var mu sync.Mutex_
+## _var wg sync.WaitGroup_
+## _counter := 0_
+##
+## _for i := 0; i < 5; i++ {_
+## _wg.Add(1)_
+## _go func() {_
+## _defer wg.Done()_
+## _mu.Lock()_
+## _counter++_
+## _mu.Unlock()_
+## _}()_
+## _}_
+## _wg.Wait()_
+## _fmt.Println("Final counter value:", counter)_
+## _}_
+
+**NOTE:** Always use Unlock() in a defer statement immediately after Lock() to ensure the mutex is released, even if the function returns early.
+
+Mutexes are essential for protecting shared state in concurrent programs, but overusing them can lead to contention and reduced performance. For many Go concurrency patterns, channels are preferred for communication, but mutexes are still important for certain shared-memory scenarios.
