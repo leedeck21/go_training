@@ -25,6 +25,7 @@ func main() {
 	}
 
 	for range baristas {
+		fmt.Println("BARISTA LOOP CALLED")
 		msg := <-c
 		fmt.Println(msg)
 	}

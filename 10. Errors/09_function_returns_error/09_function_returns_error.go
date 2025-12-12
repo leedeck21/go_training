@@ -10,31 +10,60 @@ func (e OutOfStockError) Error() string {
 	return fmt.Sprintf("%s is out of stock", e.Item)
 }
 
+type DrinkData struct {
+	Name  string
+	Price float64
+	Stock int
+}
+
+var stock = map[string]DrinkData{
+	"Espresso":   {Price: 10, Stock: 5},
+	"Latte":      {Price: 6, Stock: 3},
+	"Cappuccino": {Price: 8, Stock: 8},
+}
+
 func ServeDrink(item string) (string, error) {
 	// Here is your freshly brewed latte/espresso/cappuccino...
-	quantity := stock[item]
-	if quantity == 0 {
+	drink := stock[item]
+
+	if drink.Stock == 0 {
 		return "", OutOfStockError{Item: item}
 	}
-	stock[item]--
+
+	drink.Stock--
+
+	stock[item] = drink
 	return fmt.Sprintf("Here is your freshly brewed %s", item), nil
 }
 
-var stock = map[string]int{
-	"Espresso":   5,
-	"Latte":      0,
-	"Cappuccino": 3,
+var discounts = map[string]float64{
+	"Espresso":   0.1,
+	"Latte":      0.2,
+}
+
+func applyDiscount(item string, price float64) (float64, error) {
+		       discount, exists := discounts[item]
+		       if exists {
+			       result := price * (1 - discount)
+			       return result, nil
+		       }
+		       return 0, fmt.Errorf("no discount available for %s", item)
 }
 
 func main() {
-	message, err := ServeDrink("Espresso")
-	if err != nil {
-		fmt.Println("Serving failed!", err)
-	} else {
-		fmt.Println(message)
-	}
+		drinkName := "Cappuccino"
+		drink := stock[drinkName]
+		message, err := ServeDrink(drinkName)
+		adjustedPrice, err := applyDiscount(drinkName, drink.Price)
+		fmt.Println("Adjusted Price:", adjustedPrice)
 
-	fmt.Println()
+	       if err != nil {
+		       fmt.Println("Serving failed!", err)
+	       } else {
+		       fmt.Println(message)
+	       }
+
+	       fmt.Println()
 
 	message, err = ServeDrink("Latte")
 	if err != nil {
