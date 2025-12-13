@@ -3,15 +3,12 @@ package main
 
 import (
 	"math/rand"
-	"runtime"
-
 	"my_golang_test_project/pkg/gameutils"
+	"runtime"
+	"time"
 )
 
-
-
 func main() {
-       // We want to run the snake game multiple times concurrently to see which player wins most often.
        gamesPlayed := 1000000
        // Create a buffered channel to collect winners from each game
        winnersChannel := make(chan int, gamesPlayed)
@@ -24,13 +21,23 @@ func main() {
 
        // Start worker goroutines. Each worker will keep taking jobs from the jobs channel
        // and run playSnakeGame until the jobs channel is closed.
-       for workerID := 0; workerID < numWorkers; workerID++ {
-	       go func() {
-		       for range jobs { // for each job received...
-			       playSnakeGame(winnersChannel) // ...run a game and send the result to winnersChannel
-		       }
-	       }()
-       }
+		for workerID := 0; workerID < numWorkers; workerID++ {
+			go func(wid int) {
+				r := rand.New(rand.NewSource(int64(wid) + time.Now().UnixNano()))
+				playerPositions := map[int]int{
+					1: 0,
+					2: 0,
+					3: 0,
+					4: 0,
+				}
+				for range jobs {
+					for k := range playerPositions {
+						playerPositions[k] = 0
+					}
+					playSnakeGame(winnersChannel, r, playerPositions)
+				}
+			}(workerID)
+		}
 
        // Send all jobs (one per game) into the jobs channel
        for i := 0; i < gamesPlayed; i++ {
@@ -49,40 +56,35 @@ func main() {
 	   gameutils.PrintPlayerWinStatistics(sortedWinners, gamesPlayed)
 }
 
-func diceRoll() int {
-	return rand.Intn(6) + 1
+
+// diceRoll now uses the provided rand.Rand
+func diceRoll(r *rand.Rand) int {
+	return r.Intn(6) + 1
 }
 
 // isSnake and isLadder moved to gameutils package
 
-func playSnakeGame(winnersChannel chan int) {
-	playerPositions := map[int]int{
-		1: 0,
-		2: 0,
-		3: 0,
-		4: 0,
-	}
 
-	winner := 0
+func playSnakeGame(winnersChannel chan int, r *rand.Rand, playerPositions map[int]int) {
+       winner := 0
 
-	for winner == 0 {
-		for playerNumber, playerPosition := range playerPositions {
-			newPosition := takeTurn(playerPosition)
-			playerPositions[playerNumber] = newPosition
+       for winner == 0 {
+	       for playerNumber, playerPosition := range playerPositions {
+		       newPosition := takeTurn(playerPosition, r)
+		       playerPositions[playerNumber] = newPosition
 
-			if newPosition == 100 {
-				winner = playerNumber
-
-				break
-			}
-		}
-	}
-
-	winnersChannel <- winner
+		       if newPosition == 100 {
+			       winner = playerNumber
+			       break
+		       }
+	       }
+       }
+       winnersChannel <- winner
 }
 
-func takeTurn(currentPosition int) int {
-	diceRollOutcome := diceRoll()
+
+func takeTurn(currentPosition int, r *rand.Rand) int {
+	diceRollOutcome := diceRoll(r)
 	newPosition := diceRollOutcome + currentPosition
 
 	if newPosition > 100 {
