@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-       gamesPlayed := 1000000
+       gamesPlayed := 100000
        // Create a buffered channel to collect winners from each game
        winnersChannel := make(chan int, gamesPlayed)
 
