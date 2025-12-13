@@ -1,0 +1,10 @@
+# .dockerignore
+
+# Exclude files and directories from the Docker build context
+
+.git
+build
+scripts
+_.md
+_.log
+\*.test
