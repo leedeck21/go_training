@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 
 	"my_golang_test_project/pkg/gameutils"
 )
@@ -12,16 +13,39 @@ func main() {
 	// We want to run the snake game multiple times concurrently to see which player wins most often.
 	winnersChannel := make(chan int)
 
-	for i := 0; i < 100; i++ {
-		fmt.Printf("Starting game %d\n", i+1)
+	gamesPlayed := 1000000
+
+	for i := 0; i < gamesPlayed; i++ {
 		go playSnakeGame(winnersChannel)
-		fmt.Println()
 	}
 
-	// I need a snake game
-	// A way to run multiple games at the same time
-	// A place to store results
-	// A place to display results
+	winnersCount := make(map[int]int)
+
+	for i := 0; i < gamesPlayed; i++ {
+		winner := <-winnersChannel
+		winnersCount[winner]++
+	}
+
+	// Convert map to slice of structs for sorting
+	type playerWin struct {
+		player int
+		wins   int
+	}
+
+	var sortedWinners []playerWin
+
+	for player, wins := range winnersCount {
+		sortedWinners = append(sortedWinners, playerWin{player, wins})
+	}
+
+	// Sort by wins descending
+	sort.Slice(sortedWinners, func(left, right int) bool {
+		return sortedWinners[left].wins > sortedWinners[right].wins
+	})
+
+	for _, pw := range sortedWinners {
+		fmt.Printf("Player %d won %d times\n", pw.player, pw.wins)
+	}
 }
 
 func diceRoll() int {
@@ -53,7 +77,6 @@ func playSnakeGame(winnersChannel chan int) {
 		}
 	}
 
-	fmt.Printf("Game winner is %d", winner)
 	winnersChannel <- winner
 }
 

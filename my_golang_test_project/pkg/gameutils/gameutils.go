@@ -1,7 +1,5 @@
 package gameutils
 
-import "fmt"
-
 func IsSnake(position int) int {
 	snakePositions := map[int]int{
 		32: 10,
@@ -16,7 +14,6 @@ func IsSnake(position int) int {
 	snakePosition, exists := snakePositions[position]
 
 	if exists {
-		fmt.Printf("Snake! Moving down from %d to %d\n", position, snakePosition)
 		return snakePosition
 	}
 
@@ -38,7 +35,6 @@ func IsLadder(position int) int {
 	ladderPosition, exists := ladderPositions[position]
 
 	if exists {
-		fmt.Printf("Ladder! Moving up from %d to %d\n", position, ladderPosition)
 		return ladderPosition
 	}
 
