@@ -24,18 +24,13 @@ func main() {
 		for workerID := 0; workerID < numWorkers; workerID++ {
 			go func(wid int) {
 				r := rand.New(rand.NewSource(int64(wid) + time.Now().UnixNano()))
-				playerPositions := map[int]int{
-					1: 0,
-					2: 0,
-					3: 0,
-					4: 0,
-				}
-				for range jobs {
-					for k := range playerPositions {
-						playerPositions[k] = 0
-					}
-					playSnakeGame(winnersChannel, r, playerPositions)
-				}
+				   var playerPositions [4]int // indices 0-3 used
+				   for range jobs {
+					   for i := 0; i < 4; i++ {
+						   playerPositions[i] = 0
+					   }
+					   playSnakeGame(winnersChannel, r, &playerPositions)
+				   }
 			}(workerID)
 		}
 
@@ -65,21 +60,19 @@ func diceRoll(r *rand.Rand) int {
 // isSnake and isLadder moved to gameutils package
 
 
-func playSnakeGame(winnersChannel chan int, r *rand.Rand, playerPositions map[int]int) {
-       winner := 0
-
-       for winner == 0 {
-	       for playerNumber, playerPosition := range playerPositions {
-		       newPosition := takeTurn(playerPosition, r)
-		       playerPositions[playerNumber] = newPosition
-
+func playSnakeGame(winnersChannel chan int, r *rand.Rand, playerPositions *[4]int) {
+       winner := -1
+       for winner == -1 {
+	       for playerIdx := 0; playerIdx < 4; playerIdx++ {
+		       newPosition := takeTurn(playerPositions[playerIdx], r)
+		       playerPositions[playerIdx] = newPosition
 		       if newPosition == 100 {
-			       winner = playerNumber
+			       winner = playerIdx
 			       break
 		       }
 	       }
        }
-       winnersChannel <- winner
+       winnersChannel <- (winner + 1) // convert index to player number (1-4)
 }
 
 
